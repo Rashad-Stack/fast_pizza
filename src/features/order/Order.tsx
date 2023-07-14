@@ -1,7 +1,6 @@
-import { getOrder } from "@/services/apiRestaurant";
 import { Order as OrderType } from "@/types";
 import { calcMinutesLeft, formatCurrency, formatDate } from "@/utils/helpers";
-import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 export default function Order(): JSX.Element {
   const order = useLoaderData() as OrderType;
@@ -37,10 +36,4 @@ export default function Order(): JSX.Element {
       </div>
     </div>
   );
-}
-
-export async function Loader({ params }: LoaderFunctionArgs) {
-  const orderId = params.orderId as string;
-  const order = await getOrder(orderId);
-  return order;
 }

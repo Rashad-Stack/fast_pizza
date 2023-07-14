@@ -16,7 +16,7 @@ export interface Food {
 }
 
 export interface Order {
-  readonly id: string;
+  readonly id?: string;
   customer: string;
   phone: string;
   address: string;
@@ -25,6 +25,6 @@ export interface Order {
   position: string;
   orderPrice: number;
   priorityPrice: number;
-  status: string;
+  status?: string;
   cart: Cart[];
 }
