@@ -1,16 +1,18 @@
-import type { Cart } from "@/types/index";
+import type { Cart, RootState } from "@/types/index";
+import { useSelector } from "react-redux";
 import Button from "@/ui/Button";
 import LinkButton from "@/ui/LinkButton";
 import { useState } from "react";
 import CartItem from "./CartItem";
 
 export default function Cart(): JSX.Element {
+  const { name } = useSelector((state: RootState) => state.user);
   const [cart] = useState<Cart[]>(fakeCart);
   return (
     <div className="px-4 py-3">
       <LinkButton to="/menu">&larr; Back to menu</LinkButton>
 
-      <h2 className="mt-7 text-xl font-semibold">Your cart, %NAME%</h2>
+      <h2 className="mt-7 text-xl font-semibold">Your cart, {name}</h2>
 
       <ul className="mt-3 divide-y divide-stone-200 border-b">
         {cart.map((item) => (

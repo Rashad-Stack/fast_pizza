@@ -1,8 +1,10 @@
-import type { Cart } from "@/types";
+import type { Cart, RootState } from "@/types";
+import { useSelector } from "react-redux";
 import Button from "@/ui/Button";
 import { Form, useActionData, useNavigation } from "react-router-dom";
 
 export default function CreateOrder() {
+  const { name } = useSelector((state: RootState) => state.user);
   const cart = fakeCart as Cart[];
   const navigation = useNavigation();
   const isSubmitting: boolean = navigation.state === "submitting";
@@ -15,7 +17,13 @@ export default function CreateOrder() {
       <Form method="POST">
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">First Name</label>
-          <input type="text" name="customer" required className="input grow" />
+          <input
+            type="text"
+            name="customer"
+            required
+            defaultValue={name}
+            className="input grow"
+          />
         </div>
 
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">

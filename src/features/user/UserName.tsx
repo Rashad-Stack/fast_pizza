@@ -1,3 +1,9 @@
+import type { RootState } from "@/types";
+import { useSelector } from "react-redux";
 export default function UserName() {
-  return <p className="hidden text-sm font-semibold">Rashad</p>;
+  const { name } = useSelector((state: RootState) => state.user);
+
+  if (!name) return null;
+
+  return <p className="hidden text-sm font-semibold md:block">{name}</p>;
 }

@@ -1,11 +1,20 @@
 import Button from "@/ui/Button";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateName } from "./userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateUser(): JSX.Element {
-  const [username, setUsername] = useState<string>("Rashad");
+  const [username, setUsername] = useState<string>("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleSubmit(e: React.SyntheticEvent): void {
     e.preventDefault();
+    if (!username) return;
+    dispatch(updateName(username));
+    navigate("/menu");
+    setUsername("");
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -23,7 +32,7 @@ export default function CreateUser(): JSX.Element {
 
       {username !== "" && (
         <div>
-          <Button size="primary">Start ordering</Button>
+          <Button size="medium">Start ordering</Button>
         </div>
       )}
     </form>

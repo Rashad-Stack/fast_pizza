@@ -28,3 +28,11 @@ export interface Order {
   status?: string;
   cart: Cart[];
 }
+
+export interface User {
+  name: string;
+}
+
+export interface RootState {
+  user: User;
+}
