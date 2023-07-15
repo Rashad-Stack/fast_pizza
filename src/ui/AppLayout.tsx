@@ -19,17 +19,19 @@ export default function AppLayout() {
   }, [state]);
 
   return (
-    <>
+    <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       <LoadingBar
         color="#f11946"
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
       <Header />
-      <main>
-        <Outlet />
-      </main>
+      <div className="overflow-auto">
+        <main className="mx-auto max-w-3xl">
+          <Outlet />
+        </main>
+      </div>
       <CartOverview />
-    </>
+    </div>
   );
 }

@@ -6,10 +6,8 @@ export default function Menu(): JSX.Element {
   const menu = useLoaderData() as Food[];
 
   return (
-    <ul>
-      {menu?.map((pizza: Food) => (
-        <MenuItem key={pizza.id} pizza={pizza} />
-      ))}
+    <ul className="divide-y divide-stone-200 px-2">
+      {menu?.map((pizza: Food) => <MenuItem key={pizza.id} pizza={pizza} />)}
     </ul>
   );
 }

@@ -1,4 +1,5 @@
 import type { Cart } from "@/types";
+import Button from "@/ui/Button";
 import { Form, useActionData, useNavigation } from "react-router-dom";
 
 export default function CreateOrder() {
@@ -14,13 +15,13 @@ export default function CreateOrder() {
       <Form method="POST">
         <div>
           <label>First Name</label>
-          <input type="text" name="customer" required />
+          <input type="text" name="customer" required className="input" />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input type="tel" name="phone" required className="input" />
           </div>
           {formError?.message && <p>{formError.message}</p>}
         </div>
@@ -28,7 +29,7 @@ export default function CreateOrder() {
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input type="text" name="address" required className="input" />
           </div>
         </div>
 
@@ -37,17 +38,16 @@ export default function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
+            className="h-6 w-6 accent-yellow-400  focus:ring focus:ring-yellow-300 focus:ring-offset-2"
           />
           <label htmlFor="priority">Want to yo give your order priority?</label>
         </div>
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button type="submit" disabled={isSubmitting}>
+          <Button size="primary" disabled={isSubmitting}>
             {isSubmitting ? "Placing order..." : "Order now"}
-          </button>
+          </Button>
         </div>
       </Form>
     </div>

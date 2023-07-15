@@ -1,11 +1,7 @@
-import {
-  isRouteErrorResponse,
-  useNavigate,
-  useRouteError,
-} from "react-router-dom";
+import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import LinkButton from "./LinkButton";
 
 export default function Error(): JSX.Element {
-  const navigate = useNavigate();
   const error = useRouteError() as Error;
 
   console.log(error);
@@ -15,7 +11,7 @@ export default function Error(): JSX.Element {
       <div>
         <h1>Something went wrong 😢</h1>
         <p>{error.message}</p>
-        <button onClick={() => navigate(-1)}>&larr; Go back</button>
+        <LinkButton to="-1">&larr; Go back</LinkButton>
       </div>
     );
   }
@@ -26,7 +22,7 @@ export default function Error(): JSX.Element {
         {error.status} Page {error.statusText}😢
       </h1>
       <p>{error.error?.message}</p>
-      <button onClick={() => navigate(-1)}>&larr; Go back</button>
+      <LinkButton to="-1">&larr; Go back</LinkButton>
     </div>
   );
 }
