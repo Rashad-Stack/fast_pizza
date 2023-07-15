@@ -2,22 +2,16 @@ import { Cart } from "@/types";
 import { formatCurrency } from "@/utils/helpers";
 
 type Props = {
-  isLoadingIngredients: boolean;
-  ingredients: string;
   item: Cart;
 };
 
-export default function OrderItem({
-  item,
-  isLoadingIngredients,
-  ingredients,
-}: Props): JSX.Element {
+export default function OrderItem({ item }: Props): JSX.Element {
   const { quantity, name, totalPrice } = item;
   return (
-    <li>
-      <div>
+    <li className="py-3">
+      <div className="flex items-center justify-between gap-4 text-sm">
         <p>
-          <span>{quantity}&times;</span> {name}
+          <span className="font-bold">{quantity}&times;</span> {name}
         </p>
         <p>{formatCurrency(totalPrice)}</p>
       </div>
