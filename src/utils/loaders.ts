@@ -1,6 +1,13 @@
-import { createOrder, getMenu, getOrder } from "@/services/apiRestaurant";
-import { Order } from "@/types";
-import { LoaderFunctionArgs, redirect } from "react-router-dom";
+import store from "@/app/store";
+import { clearCart } from "@/features/cart/cartSlice";
+import {
+  createOrder,
+  getMenu,
+  getOrder,
+  updateOrder,
+} from "@/services/apiRestaurant";
+import { Order, PatchOrder } from "@/types";
+import { LoaderFunctionArgs, Params, redirect } from "react-router-dom";
 import { isValidPhone } from "./helpers";
 
 export async function menuLoader() {
@@ -12,16 +19,15 @@ export async function actionLoader({ request }: { request: Request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   const cart = JSON.parse(data.cart.toString());
+
   const order: Order = {
     customer: data.customer.toString(),
     phone: data.phone.toString(),
     address: data.address.toString(),
     cart,
-    priority: data.priority === "on",
+    priority: data.priority === "true",
     estimatedDelivery: new Date(),
-    position: "-9.000,38.000",
-    orderPrice: 95,
-    priorityPrice: 19,
+    position: data.position.toString(),
   };
 
   const errors = {} as Error;
@@ -37,6 +43,7 @@ export async function actionLoader({ request }: { request: Request }) {
   // If is everything okay create new order and redirect
   const newOrder = await createOrder(order);
 
+  store.dispatch(clearCart());
   return redirect(`/order/${newOrder.id}`);
 }
 
@@ -45,4 +52,14 @@ export async function orderLoader({ params }: LoaderFunctionArgs) {
   const order = await getOrder(orderId);
 
   return order;
+}
+
+export async function actionUpdateOrder({ params }: { params: Params }) {
+  const data: PatchOrder = {
+    priority: true,
+  };
+
+  await updateOrder(params.orderId, data);
+
+  return null;
 }

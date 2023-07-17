@@ -1,4 +1,4 @@
-import { Order } from "@/types";
+import { Order, PatchOrder } from "@/types";
 
 const API_URL = "https://react-fast-pizza-api.onrender.com/api";
 
@@ -38,7 +38,10 @@ export async function createOrder(newOrder: Order) {
   }
 }
 
-export async function updateOrder(id: number, updateObj: Order) {
+export async function updateOrder(
+  id: string | undefined,
+  updateObj: PatchOrder,
+) {
   try {
     const res = await fetch(`${API_URL}/order/${id}`, {
       method: "PATCH",

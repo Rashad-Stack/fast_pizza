@@ -1,8 +1,10 @@
-// Test:IIDSAT
-import { Order as OrderType } from "@/types";
+// Test:IIDSAT    9VMWHA
+import { Food, Order as OrderType } from "@/types";
 import { calcMinutesLeft, formatCurrency, formatDate } from "@/utils/helpers";
-import { useLoaderData } from "react-router-dom";
+import { useEffect } from "react";
+import { useFetcher, useLoaderData } from "react-router-dom";
 import OrderItem from "./OrderItem";
+import UpdateOrder from "./UpdateOrder";
 
 export default function Order(): JSX.Element {
   const order = useLoaderData() as OrderType;
@@ -11,12 +13,19 @@ export default function Order(): JSX.Element {
     id,
     status,
     priority,
-    priorityPrice,
-    orderPrice,
+    priorityPrice = 0,
+    orderPrice = 0,
     estimatedDelivery,
     cart,
-  } = order;
+  }: OrderType = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
+  }, [fetcher]);
+
+  console.log(fetcher.data);
 
   return (
     <div className="space-y-6 px-4 py-6">
@@ -48,7 +57,15 @@ export default function Order(): JSX.Element {
 
       <ul className="divide-y divide-stone-200 border-b border-t">
         {cart.map((item) => (
-          <OrderItem key={item.pizzaId} item={item} />
+          <OrderItem
+            key={item.pizzaId}
+            item={item}
+            ingredients={
+              fetcher.data?.find((el: Food) => el.id === item.pizzaId)
+                ?.ingredients
+            }
+            isLoading={fetcher.state === "loading"}
+          />
         ))}
       </ul>
       <div className="space-y-2 bg-stone-200 px-6 py-5">
@@ -64,6 +81,7 @@ export default function Order(): JSX.Element {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+      {!priority && <UpdateOrder />}
     </div>
   );
 }

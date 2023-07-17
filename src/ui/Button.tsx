@@ -6,14 +6,24 @@ interface Props {
   disabled?: boolean;
   to?: string;
   type?: "button" | "submit" | "reset";
-  size: "small" | "medium" | "transparent";
+  size: "extraSmall" | "small" | "medium" | "transparent";
+  onClick?: () => void;
 }
 
-export default function Button({ children, disabled, to, type, size }: Props) {
+export default function Button({
+  children,
+  disabled,
+  to,
+  type,
+  size,
+  onClick,
+}: Props) {
   const classes =
-    "rounded-full font-semibold uppercase tracking-wide transition-colors duration-300  focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed";
+    "rounded-full font-semibold uppercase tracking-wide transition-colors duration-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed";
 
   const styles = {
+    extraSmall:
+      "px-2.5 py-1 md:px-3.5 md:py-2 text-sm bg-yellow-400 hover:bg-yellow-300 text-stone-800 ",
     small:
       "px-4 py-2 md:px-5 md:py-2.5 text-xs bg-yellow-400 hover:bg-yellow-300 text-stone-800",
     medium:
@@ -29,6 +39,20 @@ export default function Button({ children, disabled, to, type, size }: Props) {
       </Link>
     );
   }
+
+  if (onClick) {
+    return (
+      <button
+        type={type}
+        disabled={disabled}
+        className={`${classes} ${styles[size]}`}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    );
+  }
+
   return (
     <button
       type={type}

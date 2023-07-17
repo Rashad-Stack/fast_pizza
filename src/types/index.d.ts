@@ -1,5 +1,5 @@
 export interface Cart {
-  readonly pizzaId: number;
+  readonly pizzaId: string;
   name: string;
   quantity: number;
   unitPrice: number;
@@ -23,16 +23,46 @@ export interface Order {
   priority: boolean;
   estimatedDelivery: date;
   position: string;
-  orderPrice: number;
-  priorityPrice: number;
+  orderPrice?: number;
+  priorityPrice?: number;
   status?: string;
   cart: Cart[];
 }
 
-export interface User {
+export interface PatchOrder {
+  readonly id?: string;
+  customer?: string;
+  phone?: string;
+  address?: string;
+  priority?: boolean;
+  estimatedDelivery?: date;
+  position?: string;
+  orderPrice?: number;
+  priorityPrice?: number;
+  status?: string;
+  cart?: Cart[];
+}
+
+export interface UserState {
   name: string;
+  status: "idle" | "loading" | "error";
+  position: { latitude: number; longitude: number };
+  address: string;
+  error: string | undefined;
+}
+
+type UserAction = {
+  payload: {
+    position: Position;
+    address: string;
+  };
+};
+
+export interface CartState {
+  cart: Array<Cart>;
 }
 
 export interface RootState {
   user: User;
+  cart: CartState;
 }
